@@ -13,6 +13,7 @@ url=$(jq --raw-output '.source.url // ""' < "$payload")
 role_id=$(jq --raw-output '.source.role_id // ""' < "$payload")
 secret_id=$(jq --raw-output '.source.secret_id // ""' < "$payload")
 path=$(jq --raw-output '.source.path // ""' < "$payload")
+timeout=$(jq --raw-output '.source.timeout // ""' < "$payload")
 
 fail=false
 if [ -z "$url" ]; then
@@ -37,6 +38,10 @@ fi
 
 if [ "$fail" = "true" ]; then
   exit 1
+fi
+
+if [ -n "$timeout" ]; then
+  export VAULT_CLIENT_TIMEOUT="$timeout"
 fi
 
 export VAULT_ADDR="$url"

@@ -21,6 +21,7 @@ role_id=$(jq --raw-output '.source.role_id // ""' < "$payload")
 secret_id=$(jq --raw-output '.source.secret_id // ""' < "$payload")
 path=$(jq --raw-output '.source.path // ""' < "$payload")
 tarball=$(jq --raw-output '.source.tarball // "false"' < "$payload")
+timeout=$(jq --raw-output '.source.timeout // ""' < "$payload")
 version_to_get=$(jq -r '.version.hash // ""' < "$payload")
 
 fail=false
@@ -51,6 +52,10 @@ fi
 
 if [ "$fail" = "true" ]; then
   exit 1
+fi
+
+if [ -n "$timeout" ]; then
+  export VAULT_CLIENT_TIMEOUT="$timeout"
 fi
 
 export VAULT_ADDR="$url"
