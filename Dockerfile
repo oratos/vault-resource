@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-ENV VAULT_VERSION 1.0.1
+ENV VAULT_VERSION 1.1.3
 
 RUN apt-get update && \
     apt-get install --yes jq wget unzip
